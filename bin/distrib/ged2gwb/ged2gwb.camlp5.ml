@@ -3775,7 +3775,7 @@ let anonfun s =
 let errmsg = "Usage: ged2gwb [<ged>] [options] where options are:"
 
 let main () =
-  Argl.parse speclist anonfun errmsg;
+  Arg.parse speclist anonfun errmsg;
   Secure.set_base_dir (Filename.dirname !out_file);
   let bdir =
     if Filename.check_suffix !out_file ".gwb" then !out_file

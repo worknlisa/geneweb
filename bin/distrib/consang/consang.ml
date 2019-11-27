@@ -47,7 +47,7 @@ let simple_output bname base carray =
 #endif
 
 let main () =
-  Argl.parse speclist anonfun errmsg;
+  Arg.parse speclist anonfun errmsg;
   if !fname = "" then
     begin
       Printf.eprintf "Missing file name\n";

@@ -931,15 +931,14 @@ let pwitnesses_of pevents =
 let effective_mod conf base sp =
   let pi = sp.key_index in
   let op = poi base pi in
-  let key = sp.first_name ^ " " ^ sp.surname in
   let ofn = p_first_name base op in
   let osn = p_surname base op in
   let oocc = get_occ op in
-  if ofn = sp.first_name && osn = sp.surname && oocc = sp.occ then ()
-  else
-    begin let ipl = Gutil.person_ht_find_all base key in
-      check_conflict conf base sp ipl; rename_image_file conf base op sp
-    end;
+  if ofn <> sp.first_name || osn <> sp.surname || oocc <> sp.occ then begin
+    match Gwdb.person_of_key base sp.first_name sp.surname sp.occ with
+    | Some p' when p' <> pi -> print_conflict conf base (poi base p')
+    | _ -> rename_image_file conf base op sp
+  end ;
   (* Si on modifie la personne pour lui ajouter un nom/prénom, alors *)
   (* il faut remettre le compteur du nombre de personne à jour.      *)
   if ofn = "?" && osn = "?" && sp.first_name <> "?" && sp.surname <> "?" then
